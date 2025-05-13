@@ -1,8 +1,10 @@
-class Shape {
+abstract class Shape {
   element: HTMLElement;
-  constructor(public type: ShapeType, public color: string) {
+
+  constructor(public color: string, public type: string) {
     this.element = document.createElement('div');
     this.element.classList.add('shape', type);
+    this.element.style.backgroundColor = color;
     this.setPosition();
     this.element.addEventListener('click', () => this.collect());
   }
@@ -15,14 +17,46 @@ class Shape {
     this.element.style.top = `${y}px`;
   }
 
-  collect() {
-    this.element.remove();
-    shapeScores[this.type]++;
-    updateScores();
-  }
+  abstract collect(): void;
 
   render(parent: HTMLElement) {
     parent.appendChild(this.element);
+  }
+}
+
+class Circle extends Shape {
+  constructor(color: string) {
+    super(color, 'circle');
+  }
+
+  collect() {
+    this.element.remove();
+    shapeScores.circle += 6;
+    updateScores();
+  }
+}
+
+class Square extends Shape {
+  constructor(color: string) {
+    super(color, 'square');
+  }
+
+  collect() {
+    this.element.remove();
+    shapeScores.square += 2;
+    updateScores();
+  }
+}
+
+class Triangle extends Shape {
+  constructor(color: string) {
+    super(color, 'triangle');
+  }
+
+  collect() {
+    this.element.remove();
+    shapeScores.triangle += 5;
+    updateScores();
   }
 }
 
@@ -34,7 +68,6 @@ const shapeScores: Record<ShapeType, number> = {
   triangle: 0
 };
 
-
 function updateScores() {
   (document.getElementById('circle-score') as HTMLElement).textContent = shapeScores.circle.toString();
   (document.getElementById('square-score') as HTMLElement).textContent = shapeScores.square.toString();
@@ -45,10 +78,23 @@ const gameArea = document.getElementById('game-area')!;
 const startObjectCollector = document.getElementById('start-button')!;
 
 function spawnShape() {
-  const types = ['circle', 'square', 'triangle'];
+  const types: ShapeType[] = ['circle', 'square', 'triangle'];
   const colors = ['red', 'blue', 'green'];
   const index = Math.floor(Math.random() * types.length);
-  const shape = new Shape(types[index] as ShapeType, colors[index]);
+  let shape: Shape;
+
+  switch (types[index]) {
+    case 'circle':
+      shape = new Circle(colors[index]);
+      break;
+    case 'square':
+      shape = new Square(colors[index]);
+      break;
+    case 'triangle':
+      shape = new Triangle(colors[index]);
+      break;
+  }
+
   shape.render(gameArea);
 }
 
@@ -61,9 +107,9 @@ startObjectCollector.addEventListener('click', () => {
   const interval = setInterval(() => {
     spawnShape();
     const total = shapeScores.circle + shapeScores.square + shapeScores.triangle;
-    if (total >= 10) {
+    if (total >= 50) {
       clearInterval(interval);
-      alert(`You collected 10 shapes!`);
+      alert(`You collected 50 points worth of shapes!`);
     }
   }, 800);
 });
