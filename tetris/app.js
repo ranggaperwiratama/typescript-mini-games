@@ -106,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     function undraw() {
-        console.log('undraw', { current });
         current.forEach((index) => {
             allSquares[currentPosition + index].classList.remove('block');
             allSquares[currentPosition + index].style.backgroundImage = 'none';
@@ -155,8 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //freeze the shape
     function freeze() {
         // if block has settled
-        console.log('freeze', { current });
-        console.log('current.some(index => allSquares[currentPosition + index + width].classList.contains(\'block1\')', current.some(index => allSquares[currentPosition + index + width].classList.contains('block3') || allSquares[currentPosition + index + width].classList.contains('block2')));
         if (current.some(index => allSquares[currentPosition + index + width].classList.contains('block3') || allSquares[currentPosition + index + width].classList.contains('block2'))) {
             // make it block2
             current.forEach(index => allSquares[index + currentPosition].classList.add('block2'));
@@ -195,10 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const displaySquares = document.querySelectorAll('.previous-grid div');
     let displayIndex = 0;
     const smallTetrominoes = [
-        [1, displayWidth + 1, displayWidth * 2 + 1, 2],
-        [0, displayWidth, displayWidth + 1, displayWidth * 2 + 1],
-        [1, displayWidth, displayWidth + 1, displayWidth + 2],
-        [0, 1, displayWidth, displayWidth + 1],
+        [1, displayWidth + 1, displayWidth * 2 + 1, 2], /* lTetromino */
+        [0, displayWidth, displayWidth + 1, displayWidth * 2 + 1], /* zTetromino */
+        [1, displayWidth, displayWidth + 1, displayWidth + 2], /* tTetromino */
+        [0, 1, displayWidth, displayWidth + 1], /* oTetromino */
         [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1] /* iTetromino */
     ];
     function displayShape() {

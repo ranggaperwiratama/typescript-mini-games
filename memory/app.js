@@ -1,31 +1,29 @@
 "use strict";
 document.addEventListener('DOMContentLoaded', () => {
     class CardSelector {
-        constructor() {
+        first = { id: -1, name: 'first' };
+        second = { id: -1, name: 'second' };
+        select = (cardId, name) => {
+            if (this.first.id === -1) {
+                this.first = { id: cardId, name: name };
+            }
+            else if (this.first.id === cardId || this.second.id === cardId) {
+                console.error('duplicate selection');
+            }
+            else if (this.second.id === -1) {
+                this.second = { id: cardId, name: name };
+            }
+        };
+        isFull = () => {
+            return this.first.id !== -1 && this.second.id !== -1;
+        };
+        contains = (x) => {
+            return this.first.id === x || this.second.id === x;
+        };
+        clear = () => {
             this.first = { id: -1, name: 'first' };
             this.second = { id: -1, name: 'second' };
-            this.select = (cardId, name) => {
-                if (this.first.id === -1) {
-                    this.first = { id: cardId, name: name };
-                }
-                else if (this.first.id === cardId || this.second.id === cardId) {
-                    console.error('duplicate selection');
-                }
-                else if (this.second.id === -1) {
-                    this.second = { id: cardId, name: name };
-                }
-            };
-            this.isFull = () => {
-                return this.first.id !== -1 && this.second.id !== -1;
-            };
-            this.contains = (x) => {
-                return this.first.id === x || this.second.id === x;
-            };
-            this.clear = () => {
-                this.first = { id: -1, name: 'first' };
-                this.second = { id: -1, name: 'second' };
-            };
-        }
+        };
     }
     const createBoard = () => {
         const grid = document.querySelector('.grid');

@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f8ff;
+}
+
+#game-area {
+    width: 600px;
+    height: 400px;
+    border: 2px solid #333;
+    margin: 20px auto;
+    position: relative;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    cursor: pointer;
+}
+
+.circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.square {
+    width: 40px;
+    height: 40px;
+    background-color: blue;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 40px solid green;
+}
